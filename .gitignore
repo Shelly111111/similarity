@@ -9,6 +9,7 @@
 *.userosscache
 *.sln.docstates
 
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
@@ -328,3 +329,4 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+/work/similarity_net/model_files/bow_pairwise/final/

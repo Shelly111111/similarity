@@ -24,7 +24,7 @@ class SimNetProcessor(object):
                 Reader with Pairwise
             """
             if mode == "valid":
-                with open(self.args.valid_data_dir) as file:
+                with open(self.args.valid_data_dir,encoding="utf-8") as file:
                     for line in file:
                         query, title, label = line.strip().split("\t")
                         if len(query) == 0 or len(title) == 0 or len(label) == 0 or not label.isdigit() or int(
@@ -70,61 +70,8 @@ class SimNetProcessor(object):
                         if len(neg_title) == 0:
                             neg_title = [0]
                         yield [query, pos_title, neg_title]
-        """
-        def reader_with_pointwise():
-            
-            if mode == "valid":
-                with open(self.args.valid_data_dir) as file:
-                    for line in file:
-                        query, title, label = line.strip().split("\t")
-                        if len(query) == 0 or len(title) == 0 or len(label) == 0 or not label.isdigit() or int(
-                                label) not in [0, 1]:
-                            logging.warning("line not match format in test file")
-                            continue
-                        query = [self.vocab[word] for word in query.split(" ") if word in self.vocab]
-                        title = [self.vocab[word] for word in title.split(" ") if word in self.vocab]
-                        if len(query) == 0:
-                            query = [0]
-                        if len(title) == 0:
-                            title = [0]
-                        yield [query, title]
-            elif mode == "test":
-                with open(self.args.test_data_dir) as file:
-                    for line in file:
-                        query, title, label = line.strip().split("\t")
-                        if len(query) == 0 or len(title) == 0 or len(label) == 0 or not label.isdigit() or int(
-                                label) not in [0, 1]:
-                            logging.warning("line not match format in test file")
-                            continue
-                        query = [self.vocab[word] for word in query.split(" ") if word in self.vocab]
-                        title = [self.vocab[word] for word in title.split(" ") if word in self.vocab]
-                        if len(query) == 0:
-                            query = [0]
-                        if len(title) == 0:
-                            title = [0]
-                        yield [query, title]
-            else:
-                with open(self.args.train_data_dir) as file:
-                    for line in file:
-                        query, title, label = line.strip().split("\t")
-                        if len(query) == 0 or len(title) == 0 or len(label) == 0 or not label.isdigit() or int(
-                                label) not in [0, 1]:
-                            logging.warning("line not match format in test file")
-                            continue
-                        query = [self.vocab[word] for word in query.split(" ") if word in self.vocab]
-                        title = [self.vocab[word] for word in title.split(" ") if word in self.vocab]
-                        label = int(label)
-                        if len(query) == 0:
-                            query = [0]
-                        if len(title) == 0:
-                            title = [0]
-                        yield [query, title, label]
+        return reader_with_pairwise
 
-        if self.args.task_mode == "pairwise":
-            return reader_with_pairwise
-        else:
-            return reader_with_pointwise
-    """
     def get_infer_reader(self,query):
         """
         get infer reader
@@ -163,7 +110,7 @@ class SimNetProcessor(object):
         """
         if self.valid_label.size == 0:
             labels = []
-            with open(self.args.valid_data_dir, "r") as f:
+            with open(self.args.valid_data_dir, "r",encoding="utf-8") as f:
                 for line in f:
                     labels.append([int(line.strip().split("\t")[-1])])
             self.valid_label = np.array(labels)

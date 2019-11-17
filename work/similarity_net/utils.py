@@ -169,7 +169,7 @@ class ArgConfig(object):
         train_g.add_arg("epoch", int, 10, "Number of epoches for training.")
         train_g.add_arg("save_steps", int, 100, "The steps interval to save checkpoints.")
         train_g.add_arg("validation_steps", int, 20, "The steps interval to evaluate model performance.")
-        train_g.add_arg("contunue_train", bool, True, "train contunue.")
+        train_g.add_arg("contunue_train", bool, False, "train contunue.")
 
         log_g = ArgumentGroup(parser, "logging", "logging related")
         log_g.add_arg("skip_steps", int, 10, "The steps interval to print loss.")

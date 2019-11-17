@@ -123,7 +123,6 @@ def train(conf_dict, args):
     if not args.contunue_train:
         utils.init_checkpoint(executor, args.init_checkpoint, 
                 fluid.default_startup_program())
-        print("Load model from {}".format(args.init_checkpoint))
     else:
         model_save_dir = os.path.join(args.output_dir,
                                               conf_dict["model_path"])
@@ -384,9 +383,11 @@ def infer(args,query):
                 map(lambda item: str((item[0] + 1) / 2), output[1]))
         else:
             preds_list += map(lambda item: str(np.argmax(item)), output[1])
+    Top = 5
     with codecs.open(args.infer_result_path, "w", "utf-8") as infer_file:
-        for _data, _pred in zip(simnet_process.get_infer_data(), preds_list):
+        for _data, _pred in sorted(zip(simnet_process.get_infer_data(), preds_list),key=lambda x:x[1],reverse=True)[:Top]:
             infer_file.write(_data + "\t" + _pred + "\n")
+            print(_data + "\t" + _pred + "\n")
     logging.info("infer result saved in %s" %
                  os.path.join(os.getcwd(), args.infer_result_path))
 

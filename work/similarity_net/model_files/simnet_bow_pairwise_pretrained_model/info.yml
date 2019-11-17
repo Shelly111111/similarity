@@ -1,0 +1,6 @@
+name: simnet-bow-pairwise
+type: NLP/matching
+author: baidu-nlp
+author_email: nlp@baidu.com
+version: 1.0.0
+description: Baidu's open-source similarity network model based on bow_pairwisei.
